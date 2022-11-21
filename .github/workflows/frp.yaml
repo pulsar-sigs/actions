@@ -54,6 +54,9 @@ jobs:
           root
           EOD
 
+      - name: check mvn
+        run: mvn --version
+
       - name: run frpc
         run: |
           env
