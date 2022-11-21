@@ -42,6 +42,16 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository/*/*/*
+            !~/.m2/repository/org/apache/pulsar
+          key: ${{ runner.os }}-m2-dependencies-core-modules-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-dependencies-core-modules-
+
       # - name: Setup Debug Session
       #   uses: csexton/debugger-action@master
 
