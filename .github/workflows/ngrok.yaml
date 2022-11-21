@@ -46,6 +46,6 @@ jobs:
         with:
           frp_server_addr: ${{ secrets.FRP_SERVER_ADDR }}
           frp_server_port: ${{ secrets.FRP_SERVER_PORT }}
-          frp_token: ${{ secrets.FRP_TOKEN }}
+          # frp_token: ${{ secrets.FRP_TOKEN }}
           ssh_port: ${{ secrets.SSH_PORT }}
 
