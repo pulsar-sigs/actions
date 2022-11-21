@@ -80,6 +80,8 @@ jobs:
           sed -i 's/FRPC_PORT/${{ secrets.SSH_PORT }}/g' frpc.ini
           ./frpc -c frpc.ini
 
+# export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64/
+
       # - uses: shaowenchen/debugger-action@v2
       #   name: debugger
       #   timeout-minutes: 30
