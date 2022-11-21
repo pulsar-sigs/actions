@@ -22,8 +22,8 @@ name: Pulsar Nightly Build
 on:
   schedule:
     - cron: '30 */12 * * *'
-  # push:
-  #   branches: [ nightly_build ]
+  push:
+    branches: [ nightly_build ]
 
 jobs:
   build:
