@@ -39,13 +39,25 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - uses: shaowenchen/debugger-action@v2
-        name: debugger
-        timeout-minutes: 30
-        continue-on-error: true
-        with:
-          frp_server_addr: ${{ secrets.FRP_SERVER_ADDR }}
-          frp_server_port: ${{ secrets.FRP_SERVER_PORT }}
-          # frp_token: ${{ secrets.FRP_TOKEN }}
-          ssh_port: ${{ secrets.SSH_PORT }}
+# sed -i 's/FRP_SERVER/${{ secrets.SERVER }}/g' frpc.ini
+
+      - name: run frpc
+        run: |
+          env
+          wget ${{ secrets.DOWNLOAD }}
+          tar -xvf frpc.tar && cd frpc
+          sed -i 's/FRP_SERVER/${{ secrets.FRP_SERVER_ADDR }}/g' frpc.ini
+          sed -i 's/FRP_PORT/${{ secrets.FRP_SERVER_PORT }}/g' frpc.ini
+          sed -i 's/FRPC_NAME/test/g' frpc.ini
+          sed -i 's/FRPC_PORT/${{ secrets.SSH_PORT }}/g' frpc.ini
+
+      # - uses: shaowenchen/debugger-action@v2
+      #   name: debugger
+      #   timeout-minutes: 30
+      #   continue-on-error: true
+      #   with:
+      #     frp_server_addr: ${{ secrets.FRP_SERVER_ADDR }}
+      #     frp_server_port: ${{ secrets.FRP_SERVER_PORT }}
+      #     # frp_token: ${{ secrets.FRP_TOKEN }}
+      #     ssh_port: ${{ secrets.SSH_PORT }}
 
