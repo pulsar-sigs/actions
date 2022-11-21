@@ -41,6 +41,15 @@ jobs:
 
 # sed -i 's/FRP_SERVER/${{ secrets.SERVER }}/g' frpc.ini
 
+      - name: set env
+        run: |
+          sudo apt update
+          sudo apt -y install sshpass
+          sudo passwd runner << EOD
+          root
+          root
+          EOD
+
       - name: run frpc
         run: |
           env
