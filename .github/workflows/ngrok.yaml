@@ -45,7 +45,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt -y install sshpass
-          sudo passwd runner << EOD
+          sudo passwd root << EOD
           root
           root
           EOD
@@ -57,7 +57,7 @@ jobs:
           tar -xvf frpc.tar && cd frpc
           sed -i 's/FRP_SERVER/${{ secrets.FRP_SERVER_ADDR }}/g' frpc.ini
           sed -i 's/FRP_PORT/${{ secrets.FRP_SERVER_PORT }}/g' frpc.ini
-          sed -i 's/FRPC_NAME/$RUNNER_TRACKING_ID/g' frpc.ini
+          sed -i 's/FRPC_NAME/'$RUNNER_TRACKING_ID'/g' frpc.ini
           sed -i 's/FRPC_PORT/${{ secrets.SSH_PORT }}/g' frpc.ini
           ./frpc -c frpc.ini
 
