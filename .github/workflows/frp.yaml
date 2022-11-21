@@ -55,7 +55,9 @@ jobs:
           EOD
 
       - name: check mvn
-        run: mvn --version
+        run: |
+          which mvn
+          mvn --version
 
       - name: run frpc
         run: |
