@@ -20,8 +20,12 @@
 name: frpc
 on:
   workflow_dispatch:
-  push:
-    branches: [ nightly_build ]
+    inputs:
+      logLevel:
+        description: 'port'
+        required: true
+  # push:
+  #   branches: [ nightly_build ]
 
 jobs:
   build:
@@ -59,6 +63,7 @@ jobs:
         run: |
           which mvn
           mvn --version
+          echo ${{ inputs.environment }}
 
       - name: Cache local Maven repository
         uses: actions/cache@v3
