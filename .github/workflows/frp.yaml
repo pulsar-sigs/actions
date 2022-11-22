@@ -21,7 +21,7 @@ name: frpc
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
+      port:
         description: 'port'
         required: true
   # push:
