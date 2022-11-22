@@ -63,7 +63,7 @@ jobs:
         run: |
           which mvn
           mvn --version
-          echo ${{ inputs.environment }}
+          echo ${{ inputs.port }}
 
       - name: Cache local Maven repository
         uses: actions/cache@v3
@@ -83,7 +83,11 @@ jobs:
           sed -i 's/FRP_SERVER/${{ secrets.FRP_SERVER_ADDR }}/g' frpc.ini
           sed -i 's/FRP_PORT/${{ secrets.FRP_SERVER_PORT }}/g' frpc.ini
           sed -i 's/FRPC_NAME/github_${{ secrets.SSH_PORT }}/g' frpc.ini
-          sed -i 's/FRPC_PORT/${{ secrets.SSH_PORT }}/g' frpc.ini
+          sed -i 's/FRPC_PORT/${{ inputs.port }}/g' frpc.ini
+          ./frpc -c frpc.ini
+          
+          
+       #   sed -i 's/FRPC_PORT/${{ secrets.SSH_PORT }}/g' frpc.ini
           
           
         #  ./frpc -c frpc.ini
