@@ -51,8 +51,11 @@ jobs:
             ${{ runner.os }}-m2-dependencies-core-modules-
 
       - name: run install
-        run: mvn clean install -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
-        
+        run: mvn clean install  -DskipTests -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
+
+      - name: run ci 
+        run: mvn clean install  -DskipTests -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true 
+
       - name: check docker images
         run: docker images
 
