@@ -1,0 +1,127 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+
+name: Pulsar Nightly Build
+
+on:
+  schedule:
+    - cron: '30 */12 * * *'
+  push:
+    branches: [ nightly_build ]
+
+jobs:
+  buildpulsar:
+    name: buildpulsar
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: "apache/pulsar"
+          fetch-depth: 1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository/*/*/*
+            !~/.m2/repository/org/apache/pulsar
+          key: ${{ runner.os }}-m2-dependencies-core-modules-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-dependencies-core-modules-
+
+      # - name: Setup Debug Session
+      #   uses: csexton/debugger-action@master
+
+      - name: run install
+        run: mvn clean install  -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
+
+      # - name: build image
+      #   run: mvn -am -pl pulsar-sql/presto-distribution,distribution/io,distribution/offloaders,distribution/server,tests/docker-images/latest-version-image install -Pmain,docker -Dmaven.test.skip=true -Ddocker.squash=true -Dspotbugs.skip=true -Dlicense.skip=true -Dcheckstyle.skip=true -Drat.skip=true -e
+
+      # - name: run build image
+      #   run: mvn -B -am -pl tests/docker-images/java-test-image install -Pcore-modules,-main,integrationTests,docker           -Dmaven.test.skip=true -Ddocker.squash=true -DskipSourceReleaseAssembly=true           -Dspotbugs.skip=true  -Dlicense.skip=true -Dcheckstyle.skip=true -Drat.skip=true -e
+
+      - name: check docker images
+        run: docker images
+
+
+  buildmop:
+    name: buildmop
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: "streamnative/mop"
+          fetch-depth: 1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: run install
+        run: mvn clean install -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
+
+
+  buildaop:
+    name: buildaop
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: "streamnative/aop"
+          fetch-depth: 1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: run install
+        run: mvn clean install -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
+
+  buildkop:
+    name: buildkop
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: "streamnative/kop"
+          fetch-depth: 1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: run install
+        run: mvn clean install -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
