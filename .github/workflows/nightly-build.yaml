@@ -25,7 +25,7 @@ on:
     branches: [ nightly_build ]
 
 jobs:
-  build:
+  buildpulsar:
     name: build_docker_image
     runs-on: ubuntu-20.04
     steps:
@@ -53,3 +53,62 @@ jobs:
       - name: check docker images
         run: docker images
 
+
+
+  buildmop:
+    name: build_docker_image
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: "streamnative/mop"
+          fetch-depth: 1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: run install
+        run: mvn clean install -DskipTests -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
+
+
+  buildaop:
+    name: build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: "streamnative/aop"
+          fetch-depth: 1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: run install
+        run: mvn clean install -DskipTests -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
+
+  buildkop:
+    name: build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: "streamnative/kop"
+          fetch-depth: 1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: run install
+        run: mvn clean install -DskipTests -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
