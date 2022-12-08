@@ -27,7 +27,7 @@ on:
 
 jobs:
   buildpulsar:
-    name: build_docker_image
+    name: buildpulsar
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
@@ -70,7 +70,7 @@ jobs:
 
 
   buildmop:
-    name: build_docker_image
+    name: buildmop
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
@@ -90,7 +90,7 @@ jobs:
 
 
   buildaop:
-    name: build
+    name: buildaop
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
@@ -109,7 +109,7 @@ jobs:
         run: mvn clean install -DskipTests -Dcheckstyle.skip -Denforcer.skip=true -Dlicense.skip=true -Dspotbugs.skip=true
 
   buildkop:
-    name: build
+    name: buildkop
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
